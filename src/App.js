@@ -18,8 +18,8 @@ import {
   FaRocket
 } from 'react-icons/fa';
 import AOS from 'aos';
-import 'aos/dist/aos.css';
 import emailjs from '@emailjs/browser';
+import 'aos/dist/aos.css';
 
 function App() {
   const [showChatbot, setShowChatbot] = useState(false);
@@ -43,13 +43,35 @@ function App() {
   const [submitStatus, setSubmitStatus] = useState(null);
 
   useEffect(() => {
+    // Initialize AOS with optimized settings for better performance
     AOS.init({
-      duration: 1000,
-      once: true
+      duration: 800,
+      once: true,
+      offset: 100,
+      easing: 'ease-out-cubic'
     });
     
-    // EmailJS will be initialized later when credentials are ready
-    // emailjs.init("YOUR_PUBLIC_KEY");
+    // Initialize EmailJS with your public key
+    emailjs.init("Dn6w5-kRtXr99jX4v");
+    
+    // Lazy loading for images
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.classList.add('loaded');
+          observer.unobserve(img);
+        }
+      });
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
+    
+    // Cleanup
+    return () => {
+      images.forEach(img => imageObserver.unobserve(img));
+    };
   }, []);
 
   // Auto-scroll to bottom when new messages arrive
@@ -74,26 +96,23 @@ function App() {
     setSubmitStatus(null);
 
     try {
-      // Create mailto link
-      const mailtoLink = `mailto:shyakasteven2023@gmail.com?subject=${encodeURIComponent(`Cloud Sync Contact: ${contactForm.subject}`)}&body=${encodeURIComponent(`
-Name: ${contactForm.name}
-Email: ${contactForm.email}
-Subject: ${contactForm.subject}
+      // Prepare template parameters for EmailJS
+      const templateParams = {
+        from_name: contactForm.name,
+        from_email: contactForm.email,
+        subject: contactForm.subject,
+        message: contactForm.message,
+        to_email: 'cloudsync.rw@gmail.com'
+      };
 
-Message:
-${contactForm.message}
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        'service_m7aj4ca',
+        'template_18ebwqg', 
+        templateParams
+      );
 
----
-This message was sent from the Cloud Sync website contact form.
-      `)}`;
-
-      // Try to open email client
-      const link = document.createElement('a');
-      link.href = mailtoLink;
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      console.log('Email sent successfully:', result);
       
       // Show success message
       setSubmitStatus('success');
@@ -152,46 +171,52 @@ This message was sent from the Cloud Sync website contact form.
 
   const products = [
     {
-      category: "electronics",
-      image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "Laptops & Computers",
-      price: "From $500",
-      description: "High-performance laptops and desktop computers for business and personal use with warranty and support."
-    },
-    {
-      category: "electronics",
-      image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "Smartphones & Tablets",
-      price: "From $200",
-      description: "Latest smartphones and tablets from top brands with warranty, accessories, and technical support."
-    },
-    {
-      category: "electronics",
-      image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "Accessories & Peripherals",
-      price: "From $20",
-      description: "Quality accessories including chargers, cases, headphones, keyboards, and other peripherals."
-    },
-    {
+      id: 1,
       category: "software",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "ERP Systems",
-      price: "Custom Quote",
-      description: "Enterprise Resource Planning systems customized for your business needs with AI-powered insights."
+      title: "Custom Software Development",
+      price: "From $5,000",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400",
+      description: "Tailored software solutions designed specifically for your business needs and requirements."
     },
     {
+      id: 2,
       category: "software",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "E-commerce Platforms",
-      price: "Custom Quote",
-      description: "Complete e-commerce solutions with payment integration, inventory management, and analytics."
+      title: "Mobile App Development",
+      price: "From $3,000",
+      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400",
+      description: "Native and cross-platform mobile applications for iOS and Android platforms."
     },
     {
+      id: 3,
       category: "software",
-      image: "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "Business Intelligence",
-      price: "Custom Quote",
-      description: "Data analytics and reporting tools to transform your business insights and drive growth."
+      title: "Web Application Development",
+      price: "From $4,000",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400",
+      description: "Scalable web applications with modern frameworks and cloud integration."
+    },
+    {
+      id: 4,
+      category: "software",
+      title: "AI & Machine Learning Solutions",
+      price: "From $8,000",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400",
+      description: "Advanced AI integration and machine learning models for business automation."
+    },
+    {
+      id: 5,
+      category: "software",
+      title: "Data Analysis & BI Tools",
+      price: "From $6,000",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400",
+      description: "Comprehensive data analysis and business intelligence solutions."
+    },
+    {
+      id: 6,
+      category: "software",
+      title: "ERP System Development",
+      price: "From $15,000",
+      image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=400",
+      description: "Enterprise Resource Planning systems tailored to your business processes."
     }
   ];
 
@@ -265,8 +290,7 @@ This message was sent from the Cloud Sync website contact form.
       botResponse = 'Our Data Analysis services include:\n• Business intelligence\n• Data visualization\n• Predictive modeling\n• Performance analytics\n• Custom reporting\n\nWhat data insights are you looking for?';
     } else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
       botResponse = 'Our pricing varies based on project requirements and complexity. For a detailed quote, please contact our Sales Specialist:\n\n📧 shyakasteven2023@gmail.com\n📞 +250782194138\n\nWhat type of project are you considering?';
-    } else if (lowerMessage.includes('electronic') || lowerMessage.includes('device')) {
-      botResponse = 'We offer a wide range of electronic devices:\n• Laptops and computers\n• Smartphones and tablets\n• Accessories and peripherals\n• All with warranty and support\n\nContact our sales team for current inventory and pricing.';
+
     } else {
       botResponse = 'I can help you with information about our services including mobile app development, web applications, AI integration, data analysis, and electronic devices. You can also ask about pricing or contact details. What would you like to know?';
     }
@@ -298,7 +322,7 @@ This message was sent from the Cloud Sync website contact form.
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !isTyping) {
       sendMessage();
     }
   };
@@ -308,16 +332,73 @@ This message was sent from the Cloud Sync website contact form.
       {/* Navigation */}
       <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
         <Container>
-          <Navbar.Brand href="#home">Cloud Sync</Navbar.Brand>
+          <Navbar.Brand 
+            href="#home" 
+            className="d-flex align-items-center"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            <span className="fw-bold fs-4">Cloud Sync</span>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#about">About</Nav.Link>
-              <Nav.Link href="#services">Services</Nav.Link>
-              <Nav.Link href="#products">Products</Nav.Link>
-              <Nav.Link href="#testimonials">Testimonials</Nav.Link>
-              <Nav.Link href="#contact">Contact</Nav.Link>
+              <Nav.Link 
+                href="#home"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Home
+              </Nav.Link>
+              <Nav.Link 
+                href="#about"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                About
+              </Nav.Link>
+              <Nav.Link 
+                href="#services"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Services
+              </Nav.Link>
+              <Nav.Link 
+                href="#products"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Products
+              </Nav.Link>
+              <Nav.Link 
+                href="#testimonials"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Testimonials
+              </Nav.Link>
+              <Nav.Link 
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Contact
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -404,11 +485,11 @@ This message was sent from the Cloud Sync website contact form.
           <Row>
             {features.map((feature, index) => (
               <Col lg={4} md={6} key={index} data-aos="fade-up" data-aos-delay={index * 100}>
-                <div className="service-card">
-                  <div className="service-icon">
+                <div className="feature-card">
+                  <div className="feature-icon">
                     {feature.icon}
                   </div>
-                  <h4>{feature.title}</h4>
+                  <h5>{feature.title}</h5>
                   <p>{feature.description}</p>
                 </div>
               </Col>
@@ -422,25 +503,32 @@ This message was sent from the Cloud Sync website contact form.
         <Container>
           <Row className="align-items-center">
             <Col lg={6} data-aos="fade-right">
-              <div className="about-image">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cloud Sync Team" />
+              <div className="about-content">
+                <h2>About Cloud Sync</h2>
+                <p className="lead">Based in Kigali, Rwanda, Cloud Sync is a dynamic technology company that specializes in software development and innovative digital solutions. We serve businesses across East Africa with cutting-edge technology services.</p>
+                
+                <div className="mt-5">
+                  <h5>Why Choose Cloud Sync?</h5>
+                  <ul>
+                    <li>Custom software solutions tailored to your needs</li>
+                    <li>AI-powered automation and analytics</li>
+                    <li>Local support and maintenance services</li>
+                    <li>Competitive pricing and flexible payment options</li>
+                    <li>24/7 technical support and consultation</li>
+                  </ul>
+                </div>
               </div>
             </Col>
             <Col lg={6} data-aos="fade-left">
-              <div className="section-title text-start">
-                <h2>About Cloud Sync</h2>
-                <p>Based in Kigali, Rwanda, Cloud Sync is a dynamic technology company that combines software development expertise with electronic device distribution. We serve businesses across East Africa with innovative solutions.</p>
-              </div>
-              <div className="mt-4">
-                <h5>Why Choose Cloud Sync?</h5>
-                <ul className="list-unstyled">
-                  <li className="mb-2">✓ Custom software solutions tailored to your needs</li>
-                  <li className="mb-2">✓ AI-powered automation and analytics</li>
-                  <li className="mb-2">✓ Quality electronic devices with warranty</li>
-                  <li className="mb-2">✓ Local support and maintenance services</li>
-                  <li className="mb-2">✓ Competitive pricing and flexible payment options</li>
-                  <li className="mb-2">✓ 24/7 technical support and consultation</li>
-                </ul>
+              <div className="about-image text-center">
+                <img 
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Cloud Sync professional team working on technology solutions in Kigali, Rwanda" 
+                  className="img-fluid"
+                  loading="lazy"
+                  width="800"
+                  height="600"
+                />
               </div>
             </Col>
           </Row>
@@ -452,16 +540,21 @@ This message was sent from the Cloud Sync website contact form.
         <Container>
           <div className="section-title" data-aos="fade-up">
             <h2>Our Products & Solutions</h2>
-            <p>Discover our range of electronic devices and software solutions</p>
+            <p>Discover our range of software solutions and digital services</p>
           </div>
           <Row>
             {products.map((product, index) => (
-              <Col lg={4} md={6} key={index} data-aos="fade-up" data-aos-delay={index * 100}>
+              <Col lg={4} md={6} key={product.id} data-aos="fade-up" data-aos-delay={index * 100}>
                 <div className="menu-item">
-                  <img src={product.image} alt={product.title} />
+                  <img 
+                    src={product.image} 
+                    alt={`${product.title} - Cloud Sync technology solution`} 
+                    loading="lazy"
+                    width="400"
+                    height="300"
+                  />
                   <div className="menu-item-content">
                     <h5 className="menu-item-title">{product.title}</h5>
-                    <div className="menu-item-price">{product.price}</div>
                     <p className="menu-item-description">{product.description}</p>
                   </div>
                 </div>
@@ -502,7 +595,7 @@ This message was sent from the Cloud Sync website contact form.
         <Container>
           <div className="section-title" data-aos="fade-up">
             <h2>Contact Us</h2>
-            <p>Get in touch with us for your technology needs</p>
+            <p>Get in touch with us for your software development needs</p>
           </div>
           <Row>
             <Col lg={8} data-aos="fade-right">
@@ -547,48 +640,62 @@ This message was sent from the Cloud Sync website contact form.
                   <Form.Control 
                     as="textarea" 
                     rows={5} 
-                    placeholder="Message" 
+                    placeholder="Your Message" 
                     name="message"
                     value={contactForm.message}
                     onChange={handleContactFormChange}
                     required
                   />
                 </Form.Group>
-                <Button variant="primary" type="submit" disabled={isSubmitting}>
+                <Button 
+                  variant="primary" 
+                  type="submit" 
+                  size="lg" 
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
                 {submitStatus === 'success' && (
-                  <div className="form-feedback success">
-                    ✅ Message sent successfully! Your email client should have opened. If it didn't, please email Steven directly at shyakasteven2023@gmail.com
+                  <div className="alert alert-success mt-3">
+                    Message sent successfully! We'll get back to you soon.
                   </div>
                 )}
                 {submitStatus === 'error' && (
-                  <div className="form-feedback error">
-                    ❌ Failed to open email client. Please email Steven directly at shyakasteven2023@gmail.com
+                  <div className="alert alert-danger mt-3">
+                    Error sending message. Please try again or contact us directly.
                   </div>
                 )}
-                <div className="mt-3 text-muted small">
-                  <p>💡 <strong>How it works:</strong> Clicking "Send Message" will open your email client with a pre-filled message to Steven. Just click send in your email app!</p>
-                  <p>📧 <strong>Alternative:</strong> <a href="mailto:shyakasteven2023@gmail.com" className="text-primary">Email Steven directly</a></p>
-                </div>
               </Form>
             </Col>
             <Col lg={4} data-aos="fade-left">
               <div className="contact-info">
-                <h4><FaMapMarkerAlt className="me-2" />Location</h4>
-                <p>Kigali, Rwanda<br />Central Business District</p>
-                
-                <h4><FaPhone className="me-2" />Call Us</h4>
-                <p>+250 788 123 456<br />+250 789 123 456</p>
-                
-                <h4><FaEnvelope className="me-2" />Email Us</h4>
-                <p>info@cloudsync.rw<br />support@cloudsync.rw</p>
+                <h4><FaMapMarkerAlt className="me-2" />Our Location</h4>
+                <p>Kigali, Rwanda<br />East Africa</p>
 
-                <h4><FaUsers className="me-2" />Sales & Marketing</h4>
-                <p><strong>Steven Shyaka</strong><br />
-                Sales & Marketing Specialist<br />
-                📧 shyakasteven2023@gmail.com<br />
+                <h4><FaPhone className="me-2" />Call Us</h4>
+                <p>+250 782 194 138<br />+250 793 463 570</p>
+
+                <h4><FaEnvelope className="me-2" />Email Us</h4>
+                <p>cloudsync.rw@gmail.com<br />support@cloudsync.rw</p>
+
+                <h4><FaUsers className="me-2" />Our Team</h4>
+                <p><strong>Steven SHYAKA</strong><br />
+                📧 steven.cloudsync.rw@gmail.com<br />
                 📞 +250782194138</p>
+                
+                <p><strong>Ritha Akeza</strong><br />
+                📧 ritha.cloudsync.rw@gmail.com<br />
+                📞 +250793463570</p>
+
+                <h4><FaGlobe className="me-2" />Follow Us</h4>
+                <p>
+                  <a href="https://www.instagram.com/cloudsync.c?igsh=MXd4d3Z0YXk3bHB0NA%3D%3D&utm_source=qr" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     style={{ color: '#E4405F', textDecoration: 'none' }}>
+                    📸 @cloudsync.c
+                  </a>
+                </p>
               </div>
             </Col>
           </Row>
@@ -600,14 +707,16 @@ This message was sent from the Cloud Sync website contact form.
         <Container>
           <Row>
             <Col lg={3} md={6}>
-              <h5>Cloud Sync</h5>
-              <p>Leading technology solutions provider in Rwanda, specializing in software development, AI integration, and electronic devices.</p>
+              <div className="text-center text-lg-start">
+                <h5>Cloud Sync</h5>
+                <p>Leading technology solutions provider in Rwanda, specializing in software development, AI integration, and data analysis. Empowering businesses with innovative digital solutions since 2020.</p>
+              </div>
             </Col>
             <Col lg={3} md={6}>
               <h5>Useful Links</h5>
-              <ul className="list-unstyled">
+              <ul>
                 <li><a href="#home">Home</a></li>
-                <li><a href="#about">About us</a></li>
+                <li><a href="#about">About Us</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#products">Products</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -615,25 +724,28 @@ This message was sent from the Cloud Sync website contact form.
             </Col>
             <Col lg={3} md={6}>
               <h5>Our Services</h5>
-              <ul className="list-unstyled">
-                <li><a href="#services">Mobile App Development</a></li>
-                <li><a href="#services">Web Applications</a></li>
-                <li><a href="#services">AI Integration</a></li>
-                <li><a href="#services">Data Analysis</a></li>
-                <li><a href="#services">Electronic Devices</a></li>
+              <ul>
+                <li>Mobile App Development</li>
+                <li>Web Applications</li>
+                <li>AI Integration</li>
+                <li>Data Analysis</li>
+                <li>Custom Software</li>
               </ul>
             </Col>
             <Col lg={3} md={6}>
               <h5>Contact Info</h5>
-              <p>Kigali, Rwanda<br />
-              Phone: +250 788 123 456<br />
-              Email: info@cloudsync.rw<br />
-              <strong>Sales:</strong> shyakasteven2023@gmail.com<br />
-              <strong>Sales Phone:</strong> +250782194138</p>
+              <div className="contact-info" style={{ background: 'transparent' }}>
+                <p>Kigali, Rwanda</p>
+                <p>Phone: +250 782 194 138</p>
+                <p>Email: cloudsync.rw@gmail.com</p>
+                <p><strong>Steven SHYAKA:</strong> steven.cloudsync.rw@gmail.com</p>
+                <p><strong>Ritha Akeza:</strong> ritha.cloudsync.rw@gmail.com</p>
+                <p><strong>Instagram:</strong> <a href="https://www.instagram.com/cloudsync.c?igsh=MXd4d3Z0YXk3bHB0NA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">@cloudsync.c</a></p>
+              </div>
             </Col>
           </Row>
           <div className="footer-bottom">
-            <p>&copy; 2024 Cloud Sync. All Rights Reserved. | Based in Kigali, Rwanda</p>
+            <p>© 2024 Cloud Sync. All Rights Reserved. | Based in Kigali, Rwanda.</p>
           </div>
         </Container>
       </footer>
@@ -677,115 +789,24 @@ This message was sent from the Cloud Sync website contact form.
           <Modal.Body className="chatbot-body" style={{ padding: 0, height: '450px', display: 'flex', flexDirection: 'column', background: '#fafafa' }}>
             <div className="chat-messages" style={{ flex: 1, padding: '20px', overflowY: 'auto', maxHeight: '350px', scrollBehavior: 'smooth' }}>
               {chatMessages.map((msg, index) => (
-                <div key={index} className={`chat-message ${msg.type}`} style={{ 
-                  marginBottom: '15px', 
-                  display: 'flex', 
-                  opacity: 0, 
-                  transform: 'translateY(20px)', 
-                  animation: `messageSlideIn 0.5s ease forwards ${index * 0.1}s` 
-                }}>
-                  <div className="message-content" style={{
-                    maxWidth: '80%',
-                    padding: '15px 18px',
-                    borderRadius: '18px',
-                    fontSize: '0.9rem',
-                    lineHeight: 1.4,
-                    position: 'relative',
-                    transition: 'all 0.3s ease',
-                    background: msg.type === 'user' 
-                      ? 'linear-gradient(135deg, #cda45e 0%, #b8944a 100%)' 
-                      : 'white',
-                    color: msg.type === 'user' ? 'white' : '#6c757d',
-                    borderBottomRightRadius: msg.type === 'user' ? '5px' : '18px',
-                    borderBottomLeftRadius: msg.type === 'bot' ? '5px' : '18px',
-                    boxShadow: msg.type === 'user' 
-                      ? '0 5px 15px rgba(205, 164, 94, 0.3)' 
-                      : '0 5px 15px rgba(0, 0, 0, 0.1)',
-                    border: msg.type === 'bot' ? '1px solid #e9ecef' : 'none'
-                  }}>
-                    {msg.message.split('\n').map((line, i) => (
-                      <p key={i} style={{ margin: 0, marginBottom: '5px', animation: 'textFadeIn 0.6s ease' }}>{line}</p>
-                    ))}
+                <div key={index} className={`chat-message ${msg.type}`}>
+                  <div className="message-content">
+                    {msg.message}
                   </div>
                 </div>
               ))}
-              {isTyping && (
-                <div className="chat-message bot" style={{ marginBottom: '15px', display: 'flex', justifyContent: 'flex-start' }}>
-                  <div className="typing-indicator" style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    padding: '15px 18px',
-                    background: 'white',
-                    borderRadius: '18px',
-                    borderBottomLeftRadius: '5px',
-                    boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
-                    border: '1px solid #e9ecef',
-                    maxWidth: '80px'
-                  }}>
-                    <div className="typing-dot" style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      background: '#cda45e',
-                      animation: 'typing 1.4s infinite ease-in-out'
-                    }}></div>
-                    <div className="typing-dot" style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      background: '#cda45e',
-                      animation: 'typing 1.4s infinite ease-in-out',
-                      animationDelay: '-0.16s'
-                    }}></div>
-                    <div className="typing-dot" style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      background: '#cda45e',
-                      animation: 'typing 1.4s infinite ease-in-out',
-                      animationDelay: '0s'
-                    }}></div>
-                  </div>
-                </div>
-              )}
             </div>
-            <div className="chat-input" style={{
-              padding: '20px',
-              borderTop: '1px solid #e9ecef',
-              display: 'flex',
-              gap: '12px',
-              background: 'white',
-              borderRadius: '0 0 20px 20px'
-            }}>
-              <Form.Control
+            <div className="chat-input-container">
+              <input
                 type="text"
                 placeholder="Type your message..."
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                disabled={isTyping}
-                style={{
-                  borderRadius: '25px',
-                  border: '2px solid #e9ecef',
-                  padding: '12px 18px',
-                  transition: 'all 0.3s ease',
-                  fontSize: '0.9rem'
-                }}
+                className="chat-input"
               />
-              <Button 
-                variant="primary" 
-                onClick={sendMessage}
-                disabled={isTyping || !userInput.trim()}
-                style={{
-                  borderRadius: '25px',
-                  padding: '12px 20px',
-                  fontWeight: 600,
-                  transition: 'all 0.3s ease',
-                  minWidth: '80px'
-                }}
-              >
-                Send
+              <Button variant="primary" onClick={sendMessage} disabled={isTyping}>
+                {isTyping ? 'Typing...' : 'Send'}
               </Button>
             </div>
           </Modal.Body>
@@ -795,4 +816,4 @@ This message was sent from the Cloud Sync website contact form.
   );
 }
 
-export default App; 
+export default App;

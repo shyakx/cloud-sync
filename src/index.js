@@ -7,8 +7,16 @@ import './index.css';
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Performance optimization: Remove StrictMode in development for faster startup
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 root.render(
-  <React.StrictMode>
+  isDevelopment ? (
     <App />
-  </React.StrictMode>
+  ) : (
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  )
 ); 
