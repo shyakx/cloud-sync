@@ -111,7 +111,7 @@ npm run build
 The website includes placeholder contact information for Cloud Sync:
 - **Location**: Kigali, Rwanda
 - **Phone**: +250 788 123 456
-- **Email**: info@cloudsync.rw
+- **Email**: cloudsync.rw@gmail.com
 
 ## 🔧 Available Scripts
 

@@ -80,7 +80,7 @@ If you set up EmailJS later, add these environment variables in Netlify:
 ## 🎯 Step 4: Custom Domain (Optional)
 
 1. **Go to Site Settings** → **Domain management**
-2. **Add custom domain**: `cloudsync.rw` (if you own it)
+2. **Add custom domain**: `cloudsync-rw.com` (if you own it)
 3. **Configure DNS** as instructed by Netlify
 
 ## 📱 Step 5: Test Your Deployment

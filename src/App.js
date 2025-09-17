@@ -410,8 +410,8 @@ function App() {
           <Row className="align-items-center">
             <Col lg={6} data-aos="fade-right">
               <div className="hero-content">
-                <h1>Welcome to Cloud Sync</h1>
-                <p>Leading technology solutions provider in Rwanda, specializing in software development, AI integration, data analysis, and electronic devices. Empowering businesses with innovative digital solutions since 2020.</p>
+                <h1>Welcome to Cloud Sync Rwanda</h1>
+                <p>Leading technology solutions provider in Rwanda, specializing in software development, AI integration, data analysis, and electronic devices. Empowering businesses with innovative digital solutions since 2020. Based in Kigali, Rwanda.</p>
                 <div className="d-flex gap-3">
                   <Button variant="primary" size="lg" href="#services">Our Services</Button>
                   <Button variant="outline-primary" size="lg" href="#contact">Contact Us</Button>
@@ -504,11 +504,11 @@ function App() {
           <Row className="align-items-center">
             <Col lg={6} data-aos="fade-right">
               <div className="about-content">
-                <h2>About Cloud Sync</h2>
-                <p className="lead">Based in Kigali, Rwanda, Cloud Sync is a dynamic technology company that specializes in software development and innovative digital solutions. We serve businesses across East Africa with cutting-edge technology services.</p>
+                <h2>About Cloud Sync Rwanda</h2>
+                <p className="lead">Based in Kigali, Rwanda, Cloud Sync Rwanda is a dynamic technology company that specializes in software development and innovative digital solutions. We serve businesses across East Africa with cutting-edge technology services.</p>
                 
                 <div className="mt-5">
-                  <h5>Why Choose Cloud Sync?</h5>
+                  <h5>Why Choose Cloud Sync Rwanda?</h5>
                   <ul>
                     <li>Custom software solutions tailored to your needs</li>
                     <li>AI-powered automation and analytics</li>

@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://cloudsync.rw/sitemap.xml
+Sitemap: https://cloudsync-rw.com/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1
