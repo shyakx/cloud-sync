@@ -222,21 +222,9 @@ function App() {
 
   const testimonials = [
     {
-      text: "Cloud Sync transformed our business operations with their custom ERP system. The AI integration has saved us countless hours and improved our efficiency significantly. Their team is professional and responsive.",
-      author: "Jean Pierre Uwimana",
-      position: "CEO, Tech Solutions Rwanda",
-      rating: 5
-    },
-    {
-      text: "Their mobile app development team delivered an exceptional product that exceeded our expectations. The user experience is outstanding and our customers love it. Highly recommended!",
-      author: "Marie Claire Niyonsaba",
-      position: "Marketing Director, Kigali Retail",
-      rating: 5
-    },
-    {
-      text: "The data analysis services provided by Cloud Sync helped us identify key growth opportunities. Their insights were invaluable for our strategic planning and business expansion.",
-      author: "Emmanuel Ndayisaba",
-      position: "Operations Manager, East Africa Logistics",
+      text: "Cloud Sync Rwanda helped us build a professional e-commerce platform that sells flowers and cosmetics. Their team is incredibly professional and the results speak for themselves - our sales have significantly boosted since working with them. They truly understand e-commerce and delivered exactly what we needed.",
+      author: "Akazuba Florist",
+      position: "Owner, Akazuba Florist - E-commerce Store",
       rating: 5
     }
   ];
@@ -411,7 +399,7 @@ function App() {
             <Col lg={6} data-aos="fade-right">
               <div className="hero-content">
                 <h1>Welcome to Cloud Sync Rwanda</h1>
-                <p>Leading technology solutions provider in Rwanda, specializing in software development, AI integration, data analysis, and electronic devices. Empowering businesses with innovative digital solutions since 2020. Based in Kigali, Rwanda.</p>
+                <p>Leading technology solutions provider in Rwanda, specializing in software development, AI integration, data analysis, and electronic devices. Empowering businesses with innovative digital solutions since 2022. Based in Kigali, Rwanda.</p>
                 <div className="d-flex gap-3">
                   <Button variant="primary" size="lg" href="#services">Our Services</Button>
                   <Button variant="outline-primary" size="lg" href="#contact">Contact Us</Button>
@@ -435,7 +423,7 @@ function App() {
                   </Col>
                   <Col md={6} className="text-center mb-4">
                     <div className="stat-item">
-                      <h3>5+</h3>
+                      <h3>3+</h3>
                       <p>Years Experience</p>
                     </div>
                   </Col>
@@ -709,7 +697,7 @@ function App() {
             <Col lg={3} md={6}>
               <div className="text-center text-lg-start">
                 <h5>Cloud Sync</h5>
-                <p>Leading technology solutions provider in Rwanda, specializing in software development, AI integration, and data analysis. Empowering businesses with innovative digital solutions since 2020.</p>
+                <p>Leading technology solutions provider in Rwanda, specializing in software development, AI integration, and data analysis. Empowering businesses with innovative digital solutions since 2022.</p>
               </div>
             </Col>
             <Col lg={3} md={6}>
