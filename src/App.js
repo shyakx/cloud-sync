@@ -267,7 +267,7 @@ function App() {
     let botResponse = '';
 
     if (lowerMessage.includes('contact') || lowerMessage.includes('who') || lowerMessage.includes('speak')) {
-      botResponse = 'For sales and marketing inquiries, please contact our Sales and Marketing Specialist:\n\n📧 Email: shyakasteven2023@gmail.com\n📞 Phone: +250782194138\n\nI can also help you learn more about our services. What would you like to know?';
+      botResponse = 'For sales and marketing inquiries, please contact us:\n\n📧 Email: cloudsync.rw@gmail.com\n📞 Phone: +250782194138\n\nI can also help you learn more about our services. What would you like to know?';
     } else if (lowerMessage.includes('mobile') || lowerMessage.includes('app')) {
       botResponse = 'Our Mobile App Development service includes:\n• iOS and Android development\n• Cross-platform solutions\n• UI/UX design\n• App store optimization\n• Maintenance and updates\n\nWould you like to know more about our pricing or process?';
     } else if (lowerMessage.includes('web') || lowerMessage.includes('website')) {
@@ -277,7 +277,7 @@ function App() {
     } else if (lowerMessage.includes('data') || lowerMessage.includes('analysis')) {
       botResponse = 'Our Data Analysis services include:\n• Business intelligence\n• Data visualization\n• Predictive modeling\n• Performance analytics\n• Custom reporting\n\nWhat data insights are you looking for?';
     } else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
-      botResponse = 'Our pricing varies based on project requirements and complexity. For a detailed quote, please contact our Sales Specialist:\n\n📧 shyakasteven2023@gmail.com\n📞 +250782194138\n\nWhat type of project are you considering?';
+      botResponse = 'Our pricing varies based on project requirements and complexity. For a detailed quote, please contact us:\n\n📧 cloudsync.rw@gmail.com\n📞 +250782194138\n\nWhat type of project are you considering?';
 
     } else {
       botResponse = 'I can help you with information about our services including mobile app development, web applications, AI integration, data analysis, and electronic devices. You can also ask about pricing or contact details. What would you like to know?';
@@ -667,13 +667,7 @@ function App() {
                 <p>cloudsync.rw@gmail.com<br />support@cloudsync.rw</p>
 
                 <h4><FaUsers className="me-2" />Our Team</h4>
-                <p><strong>Steven SHYAKA</strong><br />
-                📧 steven.cloudsync.rw@gmail.com<br />
-                📞 +250782194138</p>
-                
-                <p><strong>Ritha Akeza</strong><br />
-                📧 ritha.cloudsync.rw@gmail.com<br />
-                📞 +250793463570</p>
+                <p>Our dedicated team of professionals is ready to help you with your technology needs. Contact us for personalized assistance.</p>
 
                 <h4><FaGlobe className="me-2" />Follow Us</h4>
                 <p>
@@ -726,8 +720,6 @@ function App() {
                 <p>Kigali, Rwanda</p>
                 <p>Phone: +250 782 194 138</p>
                 <p>Email: cloudsync.rw@gmail.com</p>
-                <p><strong>Steven SHYAKA:</strong> steven.cloudsync.rw@gmail.com</p>
-                <p><strong>Ritha Akeza:</strong> ritha.cloudsync.rw@gmail.com</p>
                 <p><strong>Instagram:</strong> <a href="https://www.instagram.com/cloudsync.c?igsh=MXd4d3Z0YXk3bHB0NA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">@cloudsync.c</a></p>
               </div>
             </Col>
