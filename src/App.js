@@ -22,15 +22,6 @@ import emailjs from '@emailjs/browser';
 import 'aos/dist/aos.css';
 
 function App() {
-  const [showChatbot, setShowChatbot] = useState(false);
-  const [chatMessages, setChatMessages] = useState([
-    {
-      type: 'bot',
-      message: 'Hello! Welcome to Cloud Sync. I\'m here to help you learn about our services. How can I assist you today?'
-    }
-  ]);
-  const [userInput, setUserInput] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   
   // Contact form states
   const [contactForm, setContactForm] = useState({
@@ -74,13 +65,6 @@ function App() {
     };
   }, []);
 
-  // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    const chatMessages = document.querySelector('.chat-messages');
-    if (chatMessages) {
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-  }, [chatMessages]);
 
   const handleContactFormChange = (e) => {
     const { name, value } = e.target;
@@ -262,58 +246,6 @@ function App() {
     }
   ];
 
-  const handleChatbotResponse = (userMessage) => {
-    const lowerMessage = userMessage.toLowerCase();
-    let botResponse = '';
-
-    if (lowerMessage.includes('contact') || lowerMessage.includes('who') || lowerMessage.includes('speak')) {
-      botResponse = 'For sales and marketing inquiries, please contact us:\n\n📧 Email: cloudsync.rw@gmail.com\n📞 Phone: +250782194138\n\nI can also help you learn more about our services. What would you like to know?';
-    } else if (lowerMessage.includes('mobile') || lowerMessage.includes('app')) {
-      botResponse = 'Our Mobile App Development service includes:\n• iOS and Android development\n• Cross-platform solutions\n• UI/UX design\n• App store optimization\n• Maintenance and updates\n\nWould you like to know more about our pricing or process?';
-    } else if (lowerMessage.includes('web') || lowerMessage.includes('website')) {
-      botResponse = 'Our Web Applications service includes:\n• Custom website development\n• E-commerce platforms\n• ERP systems\n• Business management tools\n• Cloud integration\n\nWhat type of web solution are you looking for?';
-    } else if (lowerMessage.includes('ai') || lowerMessage.includes('artificial intelligence')) {
-      botResponse = 'Our AI Integration services include:\n• Machine learning solutions\n• Predictive analytics\n• Process automation\n• Chatbot development\n• Data insights\n\nHow can AI benefit your business?';
-    } else if (lowerMessage.includes('data') || lowerMessage.includes('analysis')) {
-      botResponse = 'Our Data Analysis services include:\n• Business intelligence\n• Data visualization\n• Predictive modeling\n• Performance analytics\n• Custom reporting\n\nWhat data insights are you looking for?';
-    } else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
-      botResponse = 'Our pricing varies based on project requirements and complexity. For a detailed quote, please contact us:\n\n📧 cloudsync.rw@gmail.com\n📞 +250782194138\n\nWhat type of project are you considering?';
-
-    } else {
-      botResponse = 'I can help you with information about our services including mobile app development, web applications, AI integration, data analysis, and electronic devices. You can also ask about pricing or contact details. What would you like to know?';
-    }
-
-    return botResponse;
-  };
-
-  const sendMessage = () => {
-    if (!userInput.trim()) return;
-
-    const newUserMessage = {
-      type: 'user',
-      message: userInput
-    };
-
-    setChatMessages(prev => [...prev, newUserMessage]);
-    setUserInput('');
-    setIsTyping(true);
-
-    // Simulate typing delay for more natural conversation
-    setTimeout(() => {
-      const botResponse = {
-        type: 'bot',
-        message: handleChatbotResponse(userInput)
-      };
-      setChatMessages(prev => [...prev, botResponse]);
-      setIsTyping(false);
-    }, 1500);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !isTyping) {
-      sendMessage();
-    }
-  };
 
   return (
     <div className="App">
@@ -730,68 +662,6 @@ function App() {
         </Container>
       </footer>
 
-      {/* Chatbot */}
-      <div className="chatbot-container">
-        <Button 
-          variant="primary" 
-          className="chatbot-toggle"
-          onClick={() => setShowChatbot(!showChatbot)}
-          style={{ 
-            position: 'relative',
-            width: '60px',
-            height: '60px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '1.5rem',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)',
-            transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-            animation: 'pulse 2s infinite'
-          }}
-        >
-          💬
-        </Button>
-        
-        <Modal 
-          show={showChatbot} 
-          onHide={() => setShowChatbot(false)} 
-          className="chatbot-modal"
-          backdrop="static"
-          keyboard={false}
-          centered
-        >
-          <Modal.Header closeButton style={{ background: 'linear-gradient(135deg, #cda45e 0%, #b8944a 100%)', color: 'white', border: 'none' }}>
-            <Modal.Title style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              🤖 Cloud Sync Assistant
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="chatbot-body" style={{ padding: 0, height: '450px', display: 'flex', flexDirection: 'column', background: '#fafafa' }}>
-            <div className="chat-messages" style={{ flex: 1, padding: '20px', overflowY: 'auto', maxHeight: '350px', scrollBehavior: 'smooth' }}>
-              {chatMessages.map((msg, index) => (
-                <div key={index} className={`chat-message ${msg.type}`}>
-                  <div className="message-content">
-                    {msg.message}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="chat-input-container">
-              <input
-                type="text"
-                placeholder="Type your message..."
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                className="chat-input"
-              />
-              <Button variant="primary" onClick={sendMessage} disabled={isTyping}>
-                {isTyping ? 'Typing...' : 'Send'}
-              </Button>
-            </div>
-          </Modal.Body>
-        </Modal>
-      </div>
     </div>
   );
 }
