@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Navbar, Nav, Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
+import { Navbar, Nav, Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { 
   FaMobile, 
   FaLaptop, 
